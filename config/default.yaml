@@ -1,0 +1,122 @@
+# ===========================================================================
+# AgenticVLM — Default Configuration
+# ===========================================================================
+
+models:
+  thinker:
+    name: "GLM-4.5V-9B"
+    path: "models/glm-4.5v-9b"
+    dtype: "bfloat16"
+    device_map: "auto"
+    generation:
+      max_new_tokens: 1200
+      temperature: 1.0
+
+  router:
+    name: "AgenticVLM Router (Qwen2.5-VL + LoRA + Turbo DFS)"
+    base_model: "models/qwen2.5-vl-7b"
+    adapter_path: "models/router_adapter"
+    use_unsloth: true
+    turbo_dfs:
+      enabled: true
+      min_prob: 0.02
+      max_new_tokens: 3
+      temperature: 0.9
+    generation:
+      max_new_tokens: 3
+      temperature: 0.9
+      do_sample: true
+      min_p: 0.02
+
+  specialist:
+    name: "Qwen2.5-VL-7B-Instruct"
+    path: "models/qwen2.5-vl-7b"
+    dtype: "auto"
+    device_map: "auto"
+    min_pixels: 200704    # 256 * 28 * 28
+    max_pixels: 1003520   # 1280 * 28 * 28
+    generation:
+      max_new_tokens: 128
+      temperature: 1.0e-20
+
+  vision_expert:
+    name: "InternVL3"
+    path: "models/internvl3"
+    dtype: "bfloat16"
+    device_map: "auto"
+    generation:
+      max_new_tokens: 500
+      temperature: 1.0e-20
+
+  ocr:
+    name: "Qwen2-VL-OCR-2B-Instruct"
+    path: "models/qwen2-vl-ocr-2b"
+    dtype: "bfloat16"
+    device_map: "auto"
+    generation:
+      max_new_tokens: 128
+      temperature: 1.0e-20
+
+  debate_llm:
+    name: "Qwen3-8B"
+    path: "models/qwen3-8b"
+    dtype: "bfloat16"
+    device_map: "auto"
+    enable_thinking: false
+    generation:
+      max_new_tokens: 32768
+      temperature: 1.0e-20
+
+  checker_llm:
+    name: "Qwen3-1.7B"
+    path: "models/qwen3-1.7b"
+    dtype: "bfloat16"
+    device_map: "auto"
+    enable_thinking: true
+    generation:
+      max_new_tokens: 32768
+      temperature: 1.0e-30
+
+pipeline:
+  # 5-stage pipeline settings
+  num_stages: 5
+  # Multi-turn conversation settings (Stage 4)
+  max_conversation_turns: 3
+  # Stress testing turns (Stage 3)
+  stress_test_turns: 2
+  # When a_T == a_E, skip Stages 3-4 (conditional execution)
+  always_debate: false
+  # Answer masking threshold (Stage 2)
+  masking_threshold: 4
+
+data:
+  train_csv: "data/train.csv"
+  val_csv: "data/val.csv"
+  test_csv: "data/test.csv"
+  image_dir: "data/images"
+
+training:
+  lora_r: 32
+  lora_alpha: 64
+  lora_dropout: 0.1
+  num_epochs: 4
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 5.0e-4
+  lr_scheduler: "cosine"
+  warmup_steps: 5
+  optimizer: "adamw_8bit"
+  seed: 3407
+  output_dir: "outputs/router"
+
+evaluation:
+  anls_threshold: 0.5
+
+vllm:
+  enabled: false
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.85
+
+logging:
+  level: "INFO"
+  file: null

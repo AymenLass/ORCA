@@ -1,0 +1,119 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agenticvlm"
+version = "1.0.0"
+description = "ORCA: Orchestrated Reasoning with Collaborative Agents for Document Visual Question Answering"
+readme = "README.md"
+license = "CC-BY-NC-4.0"
+requires-python = ">=3.10"
+authors = [
+    { name = "Aymen Lassoued", email = "aymen.lassoued@ept.ucar.tn" },
+    { name = "Mohamed Ali Souibgui", email = "msouibgui@cvc.uab.cat" },
+    { name = "Yousri Kessentini", email = "yousri.kessentini@crns.rnrt.tn" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+keywords = [
+    "document-vqa",
+    "multi-agent",
+    "vision-language-model",
+    "docvqa",
+    "vlm",
+    "debate-framework",
+    "router",
+    "cvpr",
+]
+
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.45.0",
+    "Pillow>=10.0.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "tqdm>=4.65.0",
+    "python-Levenshtein>=0.25.0",
+    "qwen-vl-utils>=0.0.8",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+train = [
+    "unsloth>=2024.8",
+    "trl>=0.9.0",
+    "datasets>=2.18.0",
+    "scikit-learn>=1.3.0",
+    "accelerate>=0.30.0",
+    "bitsandbytes>=0.43.0",
+    "peft>=0.11.0",
+]
+vllm = [
+    "vllm>=0.6.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.9.0",
+    "isort>=5.12.0",
+    "mypy>=1.6.0",
+    "ruff>=0.1.0",
+    "pre-commit>=3.4.0",
+]
+all = [
+    "agenticvlm[train,vllm,dev]",
+]
+
+[project.scripts]
+agenticvlm-predict = "agenticvlm.cli:predict_main"
+agenticvlm-predict-vllm = "agenticvlm.acceleration.predict_vllm:main"
+agenticvlm-train = "agenticvlm.cli:train_main"
+agenticvlm-eval = "agenticvlm.cli:evaluate_main"
+
+[project.urls]
+Homepage = "https://github.com/AymenLassoued/ORCA"
+Documentation = "https://github.com/AymenLassoued/ORCA"
+Repository = "https://github.com/AymenLassoued/ORCA"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agenticvlm*"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "D", "UP"]
+ignore = ["D100", "D104", "D203", "D213"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"

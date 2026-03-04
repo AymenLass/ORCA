@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ORCA: Orchestrated Reasoning with Collaborative Agents for Document Visual Question Answering"
+type: software
+authors:
+  - family-names: Lassoued
+    given-names: Aymen
+    affiliation: "Digital Research Center of Sfax, SMARTS Laboratory; Ecole Polytechnique de Tunisie, University of Carthage"
+    email: "aymen.lassoued@ept.ucar.tn"
+  - family-names: Souibgui
+    given-names: Mohamed Ali
+    affiliation: "Computer Vision Center, Universitat Autonoma de Barcelona"
+    email: "msouibgui@cvc.uab.cat"
+  - family-names: Kessentini
+    given-names: Yousri
+    affiliation: "Digital Research Center of Sfax, SMARTS Laboratory"
+    email: "yousri.kessentini@crns.rnrt.tn"
+license: CC-BY-NC-4.0
+repository-code: "https://github.com/AymenLassoued/ORCA"
+preferred-citation:
+  type: conference-paper
+  title: "ORCA: Orchestrated Reasoning with Collaborative Agents for Document Visual Question Answering"
+  authors:
+    - family-names: Lassoued
+      given-names: Aymen
+    - family-names: Souibgui
+      given-names: Mohamed Ali
+    - family-names: Kessentini
+      given-names: Yousri
+  collection-title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+  year: 2026
+  doi: "10.48550/arXiv.2603.02438"
+  url: "https://arxiv.org/abs/2603.02438"
